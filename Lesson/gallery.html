@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Галерея котиков</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://placekitten.com/1200/800') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: -1;
+    }
+
+    header {
+      text-align: center;
+      padding: 50px 20px 20px;
+    }
+
+    header h1 {
+      font-size: 42px;
+      color: #ffb6c1;
+    }
+
+    nav {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 10px;
+      background-color: #ff69b4;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #ff85c1;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: auto;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.5);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #ccc;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="overlay"></div>
+
+  <header>
+    <h1>😺 Большая галерея котиков</h1>
+    <p>Нажми на котика, чтобы рассмотреть поближе</p>
+  </header>
+
+  <nav>
+    <a href="index.html">← Назад на главную</a>
+  </nav>
+
+  <div class="gallery">
+    <!-- Надежные картинки с placekitten -->
+    <img src="/Immage/Cet 1.jpg" alt="Котик" width="250" height="180">
+    <img src="/Immage/2.jpg" alt="Котик" width="250" height="180">
+    <img src="/Immage/3.jpg" alt="Котик" width="200" height="180">
+    <img src="/Immage/4.jpg" alt="Котик" width="250" height="180">
+    <img src="/Immage/5.jpg" alt="Котик" width="250" height="180">
+    <img src="/Immage/6.jpg" alt="Котик" width="250" height="180">
+    <img src="/Immage/7.jpg" alt="Котик" width="250" height="180">
+    <img src="/Immage/8.jpg" alt="Котик" width="250" height="180">
+    <img src="/Immage/9.jpg" alt="Котик" width="250" height="180">
+    <img src="/Immage/10.jpg" alt="Котик" width="250" height="180">
+    <img src="/Immage/11.jpg" alt="Котик" width="250" height="180">
+    <img src="/Immage/12.jpg" alt="Котик" width="250" height="180">
+    <img src="/Immage/13.jpg" alt="Котик" width="250" height="180">
+    <img src="/Immage/14.jpg" alt="Котик" width="250" height="180">
+    <img src="/Immage/15.jpg" alt="Котик" width="250" height="180">
+  </div>
+
+  <footer>
+    Галерея пушистиков © 2025
+  </footer>
+
+</body>
+</html>
