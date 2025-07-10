@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Три в ряд: Цветные кубики</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://images.unsplash.com/photo-1607082349566-187342f841e6?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      color: white;
+      overflow: hidden;
+    }
+
+    h1 {
+      margin: 16px;
+      font-size: 24px;
+      text-align: center;
+      background: linear-gradient(90deg, #ff99cc, #66ccff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    #info {
+      display: flex;
+      justify-content: space-around;
+      width: 90%;
+      max-width: 380px;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    #score {
+      color: #ffcc00; /* желтый */
+    }
+
+    #timer {
+      color: #00ccff; /* голубой */
+    }
+
+    #level {
+      color: #ff66cc; /* розовый */
+    }
+
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      width: 90vmin;
+      max-width: 480px;
+      aspect-ratio: 1;
+      gap: 3px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 4px solid rgb(11, 6, 6);
+      border-radius: 10px;
+      touch-action: none;
+      box-shadow: 0 0 15px #0008;
+    }
+
+    .cell {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      transition: transform 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+      cursor: grab;
+      position: relative; /* Для анимации transform */
+    }
+
+    .disappear {
+      animation: vanish 0.4s ease forwards;
+    }
+
+    @keyframes vanish {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2) rotate(5deg); opacity: 0.5; }
+      100% { transform: scale(0.8) rotate(-5deg); opacity: 0; }
+    }
+
+    #end-screen {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      z-index: 10;
+      text-align: center;
+    }
+
+    #end-screen button {
+      margin-top: 20px;
+      font-size: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(to right, #0af, #09c);
+      color: rgb(244, 244, 244);
+      cursor: pointer;
+      box-shadow: 0 0 10px #09c;
+    }
+
+    #end-screen button:hover {
+      background: #08a;
+    }
+
+    #music-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 999;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: 1px solid white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🟦 Три в ряд: Цветные кубики</h1>
+
+<div id="info">
+  <div id="score">Очки: 0</div>
+  <div id="timer">⏱ 60</div>
+  <div id="level">Уровень: 1</div>
+</div>
+
+<div id="game-board"></div>
+
+<div id="end-screen">
+  <div>⏰ Время вышло!</div>
+  <div id="final-score">Ваш счёт: 0</div>
+  <div id="best-score">🏆 Рекорд: 0</div>
+  <button onclick="startGame()">Играть снова</button>
+</div>
+
+<button id="music-button" onclick="document.getElementById('bg-music').play()">🎵 Музыка</button>
+
+<audio id="match-sound" src="https://cdn.pixabay.com/download/audio/2023/05/09/audio_84948ef934.mp3" preload="auto"></audio>
+<audio id="swap-fail" src="https://cdn.pixabay.com/download/audio/2022/08/08/audio_0e4e17fa70.mp3" preload="auto"></audio>
+<audio id="bg-music" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_0e8f53e9a3.mp3" preload="auto" loop></audio>
+
+<script>
+  const board = document.getElementById("game-board");
+  const scoreDisplay = document.getElementById("score");
+  const timerDisplay = document.getElementById("timer");
+  const levelDisplay = document.getElementById("level");
+  const endScreen = document.getElementById("end-screen");
+  const finalScore = document.getElementById("final-score");
+  const bestScoreDisplay = document.getElementById("best-score");
+
+  const matchSound = document.getElementById("match-sound");
+  const failSound = document.getElementById("swap-fail");
+
+  const width = 8;
+  const colors = ["#ff6666", "#66ff66", "#6666ff", "#ffff66", "#ff66ff", "#66ffff"];
+
+  let squares = [];
+  let score = 0;
+  let timeLeft = 60;
+  let level = 1;
+  let gameInterval, timerInterval;
+
+  function randomColor() {
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  function createBoard() {
+    board.innerHTML = "";
+    squares = [];
+
+    for (let i = 0; i < width * width; i++) {
+      const square = document.createElement("div");
+      square.setAttribute("draggable", true);
+      square.setAttribute("id", i);
+      square.classList.add("cell");
+      square.style.backgroundColor = randomColor();
+      board.appendChild(square);
+      squares.push(square);
+    }
+
+    setupEvents();
+  }
+
+  function setupEvents() {
+    squares.forEach(square => {
+      square.addEventListener("dragstart", dragStart);
+      square.addEventListener("dragover", e => e.preventDefault());
+      square.addEventListener("drop", dragDrop);
+      square.addEventListener("dragend", dragEnd);
+
+      square.addEventListener("touchstart", touchStart);
+      square.addEventListener("touchmove", e => e.preventDefault());
+      square.addEventListener("touchend", touchEnd);
+    });
+  }
+
+  let draggedId, replacedId;
+  let draggedColor, replacedColor;
+  let startTouch = null;
+
+  function dragStart() {
+    draggedId = parseInt(this.id);
+    draggedColor = this.style.backgroundColor;
+  }
+
+  function getPosition(id) {
+    return {
+      row: Math.floor(id / width),
+      col: id % width
+    };
+  }
+
+  function dragDrop() {
+    replacedId = parseInt(this.id);
+
+    const posDragged = getPosition(draggedId);
+    const posReplaced = getPosition(replacedId);
+
+    const deltaX = (posReplaced.col - posDragged.col) * squares[0].offsetWidth;
+    const deltaY = (posReplaced.row - posDragged.row) * squares[0].offsetHeight;
+
+    const draggedSquare = squares[draggedId];
+    const replacedSquare = squares[replacedId];
+
+    board.style.pointerEvents = 'none';
+
+    draggedSquare.style.transition = 'transform 0.3s ease';
+    replacedSquare.style.transition = 'transform 0.3s ease';
+
+    draggedSquare.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+    replacedSquare.style.transform = `translate(${-deltaX}px, ${-deltaY}px)`;
+
+    setTimeout(() => {
+      // Меняем цвета после анимации
+      const tempColor = draggedSquare.style.backgroundColor;
+      draggedSquare.style.backgroundColor = replacedSquare.style.backgroundColor;
+      replacedSquare.style.backgroundColor = tempColor;
+
+      // Сброс transform и transition
+      draggedSquare.style.transition = '';
+      replacedSquare.style.transition = '';
+      draggedSquare.style.transform = '';
+      replacedSquare.style.transform = '';
+
+      board.style.pointerEvents = '';
+
+      // Проверяем валидность хода
+      const validMoves = [draggedId - 1, draggedId + 1, draggedId - width, draggedId + width];
+      if (!validMoves.includes(replacedId)) {
+        // Ход невалидный — возвращаем цвета обратно и проигрываем звук
+        draggedSquare.style.backgroundColor = tempColor;
+        replacedSquare.style.backgroundColor = replacedSquare.style.backgroundColor;
+        failSound.play();
+        return;
+      }
+
+      if (!checkMatches()) {
+        // Нет совпадений — возвращаем цвета и звук
+        const originalDraggedColor = replacedSquare.style.backgroundColor;
+        const originalReplacedColor = draggedSquare.style.backgroundColor;
+
+        draggedSquare.style.backgroundColor = originalDraggedColor;
+        replacedSquare.style.backgroundColor = originalReplacedColor;
+
+        failSound.play();
+      }
+
+      draggedId = replacedId = null;
+
+    }, 300);
+  }
+
+  function dragEnd() {
+    // Пусто, логика в dragDrop с анимацией
+  }
+
+  function touchStart(e) {
+    draggedId = parseInt(this.id);
+    draggedColor = this.style.backgroundColor;
+    startTouch = e.touches[0];
+  }
+
+  function touchEnd(e) {
+    const endTouch = e.changedTouches[0];
+    const dx = endTouch.clientX - startTouch.clientX;
+    const dy = endTouch.clientY - startTouch.clientY;
+    let direction = null;
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+      direction = dx > 0 ? 1 : -1;
+    } else {
+      direction = dy > 0 ? width : -width;
+    }
+
+    replacedId = draggedId + direction;
+
+    if (squares[replacedId]) {
+      replacedColor = squares[replacedId].style.backgroundColor;
+
+      const posDragged = getPosition(draggedId);
+      const posReplaced = getPosition(replacedId);
+
+      const deltaX = (posReplaced.col - posDragged.col) * squares[0].offsetWidth;
+      const deltaY = (posReplaced.row - posDragged.row) * squares[0].offsetHeight;
+
+      const draggedSquare = squares[draggedId];
+      const replacedSquare = squares[replacedId];
+
+      board.style.pointerEvents = 'none';
+
+      draggedSquare.style.transition = 'transform 0.3s ease';
+      replacedSquare.style.transition = 'transform 0.3s ease';
+
+      draggedSquare.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+      replacedSquare.style.transform = `translate(${-deltaX}px, ${-deltaY}px)`;
+
+      setTimeout(() => {
+        const tempColor = draggedSquare.style.backgroundColor;
+        draggedSquare.style.backgroundColor = replacedSquare.style.backgroundColor;
+        replacedSquare.style.backgroundColor = tempColor;
+
+        draggedSquare.style.transition = '';
+        replacedSquare.style.transition = '';
+        draggedSquare.style.transform = '';
+        replacedSquare.style.transform = '';
+
+        board.style.pointerEvents = '';
+
+        const validMoves = [draggedId - 1, draggedId + 1, draggedId - width, draggedId + width];
+        if (!validMoves.includes(replacedId)) {
+          draggedSquare.style.backgroundColor = tempColor;
+          replacedSquare.style.backgroundColor = replacedSquare.style.backgroundColor;
+          failSound.play();
+          return;
+        }
+
+        if (!checkMatches()) {
+          const originalDraggedColor = replacedSquare.style.backgroundColor;
+          const originalReplacedColor = draggedSquare.style.backgroundColor;
+
+          draggedSquare.style.backgroundColor = originalDraggedColor;
+          replacedSquare.style.backgroundColor = originalReplacedColor;
+
+          failSound.play();
+        }
+
+        draggedId = replacedId = null;
+      }, 300);
+    }
+  }
+
+  function checkMatches() {
+    let matched = false;
+    if (checkRowForThree()) matched = true;
+    if (checkColumnForThree()) matched = true;
+    return matched;
+  }
+
+  function checkRowForThree() {
+    let found = false;
+    for (let i = 0; i < 61; i++) {
+      const row = [i, i + 1, i + 2];
+      const color = squares[i].style.backgroundColor;
+      const invalid = [6,7,14,15,22,23,30,31,38,39,46,47,54,55];
+      if (invalid.includes(i)) continue;
+
+      if (row.every(idx => squares[idx].style.backgroundColor === color && color !== "")) {
+        row.forEach(idx => {
+          squares[idx].classList.add("disappear");
+          setTimeout(() => {
+            squares[idx].style.backgroundColor = "";
+            squares[idx].classList.remove("disappear");
+          }, 400);
+        });
+        score += 3;
+        timeLeft += 1;
+        matchSound.play();
+        updateScore();
+        found = true;
+      }
+    }
+    return found;
+  }
+
+  function checkColumnForThree() {
+    let found = false;
+    for (let i = 0; i < 47; i++) {
+      const col = [i, i + width, i + width * 2];
+      const color = squares[i].style.backgroundColor;
+      if (col.every(idx => squares[idx].style.backgroundColor === color && color !== "")) {
+        col.forEach(idx => {
+          squares[idx].classList.add("disappear");
+          setTimeout(() => {
+            squares[idx].style.backgroundColor = "";
+            squares[idx].classList.remove("disappear");
+          }, 400);
+        });
+        score += 3;
+        timeLeft += 1;
+        matchSound.play();
+        updateScore();
+        found = true;
+      }
+    }
+    return found;
+  }
+
+  function moveDown() {
+    for (let i = 0; i < 56; i++) {
+      if (squares[i + width].style.backgroundColor === "") {
+        squares[i + width].style.backgroundColor = squares[i].style.backgroundColor;
+        squares[i].style.backgroundColor = "";
+      }
+    }
+
+    for (let i = 0; i < 8; i++) {
+      if (squares[i].style.backgroundColor === "") {
+        squares[i].style.backgroundColor = randomColor();
+      }
+    }
+  }
+
+  function updateScore() {
+    scoreDisplay.textContent = "Очки: " + score;
+    level = Math.floor(score / 50) + 1;
+    levelDisplay.textContent = "Уровень: " + level;
+  }
+
+  function updateTimer() {
+    if (timeLeft > 0) {
+      timeLeft--;
+      timerDisplay.textContent = "⏱ " + Math.floor(timeLeft);
+    }
+    if (timeLeft <= 0) {
+      clearInterval(gameInterval);
+      clearInterval(timerInterval);
+      finalScore.textContent = "Ваш счёт: " + score;
+      bestScoreDisplay.textContent = "🏆 Рекорд: " + Math.max(score, localStorage.bestScore || 0);
+      if (!localStorage.bestScore || score > localStorage.bestScore) {
+        localStorage.bestScore = score;
+      }
+      endScreen.style.display = "flex";
+    }
+  }
+
+  function startGame() {
+    endScreen.style.display = "none";
+    score = 0;
+    timeLeft = 60;
+    level = 1;
+    updateScore();
+    timerDisplay.textContent = "⏱ " + timeLeft;
+    createBoard();
+
+    clearInterval(gameInterval);
+    clearInterval(timerInterval);
+
+    gameInterval = setInterval(() => {
+      checkMatches();
+      moveDown();
+    }, 150);
+
+    timerInterval = setInterval(updateTimer, 1000);
+  }
+
+  startGame();
+</script>
+
+</body>
+</html>
