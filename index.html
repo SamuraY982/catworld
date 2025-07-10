@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>CatWorld — Главное меню</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    body {
+      /* Фоновое изображение котика */
+      background: url('https://cdn2.thecatapi.com/images/MTY3ODIyMQ.jpg') no-repeat center center/cover;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    /* Полупрозрачный чёрный оверлей для затемнения фона */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+
+    nav {
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      padding: 20px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      font-size: 20px;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    nav .logo {
+      font-size: 28px;
+      font-weight: 900;
+      color: #ffda79;
+      cursor: default;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-shadow: 0 0 8px #ffd700;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition:
+        background-color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+      box-shadow: 0 0 5px transparent;
+      font-weight: 700;
+      user-select: none;
+    }
+
+    nav ul li a:hover {
+      background: #ffda79;
+      color: #1a1a2e;
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #ffda79;
+    }
+
+    nav ul li a .icon {
+      font-size: 24px;
+      line-height: 1;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">🐾 CatWorld</div>
+    <ul>
+      <li><a href="./index.html"><span class="icon">🏠</span>Главная</a></li>
+      <li><a href="./gallery.html"><span class="icon">🖼️</span>Галерея</a></li>
+    </ul>
+  </nav>
+</body>
+</html>
