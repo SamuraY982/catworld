@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Приключения Жабки-Охотницы</title>
-    <!-- Подключение Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Подключение Font Awesome для иконок (если понадобятся) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Пользовательские стили для игры */
@@ -184,10 +182,7 @@
             <div id="level">Уровень: 1</div>
             <div id="lives">Жизни: 3</div>
         </div>
-        <canvas id="gameCanvas"></canvas> <!-- Убраны width и height из HTML -->
-
-        <!-- Скрытый input type="file" для загрузки фото жабки (больше не используется для автоматического открытия, но оставлен для возможного использования) -->
-        <input type="file" id="hiddenFrogFileInput" accept="image/*" class="hidden">
+        <canvas id="gameCanvas"></canvas> <input type="file" id="hiddenFrogFileInput" accept="image/*" class="hidden">
 
         <div class="game-controls">
             <button id="startButton" class="game-button">Начать игру</button>
@@ -196,7 +191,6 @@
         </div>
     </div>
 
-    <!-- Модальное окно для сообщений -->
     <div id="gameModal" class="modal-overlay">
         <div class="modal-content">
             <h2 id="modalTitle"></h2>
@@ -222,7 +216,7 @@
         const hiddenFrogFileInput = document.getElementById('hiddenFrogFileInput'); // Получаем скрытый input file
 
         // Размеры игрового поля
-        const GRID_SIZE = 20; // Количество квадратиков по ширине и высоте
+        const GRID_SIZE = 15; // Количество квадратиков по ширине и высоте (ИЗМЕНЕНО НА 15)
         let CELL_SIZE; // Размер одного квадратика будет вычисляться динамически
 
         // Состояние игры
@@ -241,51 +235,42 @@
         // --- Место для добавления URL изображения жабки ---
         // Установите URL вашего фото жабки здесь.
         // Это фото было предоставлено вами: жаб.png
-        frogImage.src = '/Image/жаб.png'; 
+        // Убедитесь, что путь к изображению правильный относительно вашего HTML файла.
+        frogImage.src = '/Image/жаб.png'; // Изменено на относительный путь для локальной папки
         // --------------------------------------------------
 
-        // Конфигурация уровней
+        // Конфигурация уровней (обновлена с учетом 15x15 поля и возможностью перебалансировки)
         const levelsConfig = [
             // Уровень 1: Змеи
-            { fliesToEat: 5, holes: 10, predators: [{ type: 'snake', count: 1, speed: 500 }] },
+            { fliesToEat: 3, holes: 5, predators: [{ type: 'snake', count: 1, speed: 600 }] },
             // Уровень 2: Змеи и Ежи
-            { fliesToEat: 7, holes: 15, predators: [{ type: 'snake', count: 1, speed: 480 }, { type: 'hedgehog', count: 1, speed: 550 }] },
+            { fliesToEat: 4, holes: 7, predators: [{ type: 'snake', count: 1, speed: 550 }, { type: 'hedgehog', count: 1, speed: 650 }] },
             // Уровень 3: Змеи, Ежи, Цапли
-            { fliesToEat: 10, holes: 20, predators: [{ type: 'snake', count: 1, speed: 460 }, { type: 'hedgehog', count: 1, speed: 520 }, { type: 'heron', count: 1, speed: 750 }] },
+            { fliesToEat: 5, holes: 9, predators: [{ type: 'snake', count: 1, speed: 500 }, { type: 'hedgehog', count: 1, speed: 600 }, { type: 'heron', count: 1, speed: 800 }] },
             // Уровень 4: Увеличение змей
-            { fliesToEat: 8, holes: 18, predators: [{ type: 'snake', count: 2, speed: 440 }, { type: 'hedgehog', count: 1, speed: 500 }, { type: 'heron', count: 1, speed: 700 }] },
+            { fliesToEat: 4, holes: 8, predators: [{ type: 'snake', count: 2, speed: 480 }, { type: 'hedgehog', count: 1, speed: 580 }, { type: 'heron', count: 1, speed: 750 }] },
             // Уровень 5: Увеличение ежей
-            { fliesToEat: 10, holes: 22, predators: [{ type: 'snake', count: 2, speed: 420 }, { type: 'hedgehog', count: 2, speed: 480 }, { type: 'heron', count: 1, speed: 650 }] },
+            { fliesToEat: 5, holes: 10, predators: [{ type: 'snake', count: 2, speed: 460 }, { type: 'hedgehog', count: 2, speed: 550 }, { type: 'heron', count: 1, speed: 700 }] },
             // Уровень 6: Увеличение цапель
-            { fliesToEat: 12, holes: 25, predators: [{ type: 'snake', count: 2, speed: 400 }, { type: 'hedgehog', count: 2, speed: 460 }, { type: 'heron', count: 2, speed: 600 }] },
+            { fliesToEat: 6, holes: 12, predators: [{ type: 'snake', count: 2, speed: 440 }, { type: 'hedgehog', count: 2, speed: 520 }, { type: 'heron', count: 2, speed: 650 }] },
             // Уровень 7: Больше змей
-            { fliesToEat: 10, holes: 28, predators: [{ type: 'snake', count: 3, speed: 380 }, { type: 'hedgehog', count: 2, speed: 440 }, { type: 'heron', count: 2, speed: 580 }] },
+            { fliesToEat: 5, holes: 13, predators: [{ type: 'snake', count: 3, speed: 420 }, { type: 'hedgehog', count: 2, speed: 500 }, { type: 'heron', count: 2, speed: 620 }] },
             // Уровень 8: Больше ежей
-            { fliesToEat: 12, holes: 30, predators: [{ type: 'snake', count: 3, speed: 360 }, { type: 'hedgehog', count: 3, speed: 420 }, { type: 'heron', count: 2, speed: 560 }] },
+            { fliesToEat: 6, holes: 14, predators: [{ type: 'snake', count: 3, speed: 400 }, { type: 'hedgehog', count: 3, speed: 480 }, { type: 'heron', count: 2, speed: 600 }] },
             // Уровень 9: Больше цапель
-            { fliesToEat: 15, holes: 33, predators: [{ type: 'snake', count: 3, speed: 340 }, { type: 'hedgehog', count: 3, speed: 400 }, { type: 'heron', count: 3, speed: 540 }] },
+            { fliesToEat: 7, holes: 15, predators: [{ type: 'snake', count: 3, speed: 380 }, { type: 'hedgehog', count: 3, speed: 460 }, { type: 'heron', count: 3, speed: 580 }] },
             // Уровень 10: Увеличение всех
-            { fliesToEat: 13, holes: 35, predators: [{ type: 'snake', count: 4, speed: 320 }, { type: 'hedgehog', count: 4, speed: 380 }, { type: 'heron', count: 3, speed: 520 }] },
+            { fliesToEat: 7, holes: 16, predators: [{ type: 'snake', count: 4, speed: 360 }, { type: 'hedgehog', count: 4, speed: 440 }, { type: 'heron', count: 3, speed: 560 }] },
             // Уровень 11: Увеличение всех
-            { fliesToEat: 15, holes: 38, predators: [{ type: 'snake', count: 4, speed: 300 }, { type: 'hedgehog', count: 4, speed: 360 }, { type: 'heron', count: 4, speed: 500 }] },
+            { fliesToEat: 8, holes: 17, predators: [{ type: 'snake', count: 4, speed: 340 }, { type: 'hedgehog', count: 4, speed: 420 }, { type: 'heron', count: 4, speed: 540 }] },
             // Уровень 12: Увеличение всех
-            { fliesToEat: 18, holes: 40, predators: [{ type: 'snake', count: 5, speed: 280 }, { type: 'hedgehog', count: 5, speed: 340 }, { type: 'heron', count: 4, speed: 480 }] },
+            { fliesToEat: 9, holes: 18, predators: [{ type: 'snake', count: 5, speed: 320 }, { type: 'hedgehog', count: 5, speed: 400 }, { type: 'heron', count: 4, speed: 520 }] },
             // Уровень 13: Увеличение всех
-            { fliesToEat: 16, holes: 42, predators: [{ type: 'snake', count: 5, speed: 260 }, { type: 'hedgehog', count: 5, speed: 320 }, { type: 'heron', count: 5, speed: 460 }] },
+            { fliesToEat: 9, holes: 19, predators: [{ type: 'snake', count: 5, speed: 300 }, { type: 'hedgehog', count: 5, speed: 380 }, { type: 'heron', count: 5, speed: 500 }] },
             // Уровень 14: Увеличение всех
-            { fliesToEat: 18, holes: 45, predators: [{ type: 'snake', count: 6, speed: 240 }, { type: 'hedgehog', count: 6, speed: 300 }, { type: 'heron', count: 5, speed: 440 }] },
-            // Уровень 15: Увеличение всех
-            { fliesToEat: 20, holes: 48, predators: [{ type: 'snake', count: 6, speed: 220 }, { type: 'hedgehog', count: 6, speed: 280 }, { type: 'heron', count: 6, speed: 420 }] },
-            // Уровень 16: Увеличение всех
-            { fliesToEat: 19, holes: 50, predators: [{ type: 'snake', count: 7, speed: 200 }, { type: 'hedgehog', count: 7, speed: 260 }, { type: 'heron', count: 6, speed: 400 }] },
-            // Уровень 17: Увеличение всех
-            { fliesToEat: 21, holes: 52, predators: [{ type: 'snake', count: 7, speed: 180 }, { type: 'hedgehog', count: 7, speed: 240 }, { type: 'heron', count: 7, speed: 380 }] },
-            // Уровень 18: Увеличение всех
-            { fliesToEat: 23, holes: 55, predators: [{ type: 'snake', count: 8, speed: 160 }, { type: 'hedgehog', count: 8, speed: 220 }, { type: 'heron', count: 7, speed: 360 }] },
-            // Уровень 19: Увеличение всех
-            { fliesToEat: 22, holes: 58, predators: [{ type: 'snake', count: 8, speed: 140 }, { type: 'hedgehog', count: 8, speed: 200 }, { type: 'heron', count: 8, speed: 340 }] },
-            // Уровень 20: Финальный вызов (максимум хищников и скорость)
-            { fliesToEat: 25, holes: 60, predators: [{ type: 'snake', count: 9, speed: 120 }, { type: 'hedgehog', count: 9, speed: 180 }, { type: 'heron', count: 9, speed: 300 }] }
+            { fliesToEat: 10, holes: 20, predators: [{ type: 'snake', count: 6, speed: 280 }, { type: 'hedgehog', count: 6, speed: 360 }, { type: 'heron', count: 5, speed: 480 }] },
+            // Уровень 15: Финальный вызов (максимум хищников и скорость)
+            { fliesToEat: 12, holes: 22, predators: [{ type: 'snake', count: 6, speed: 250 }, { type: 'hedgehog', count: 6, speed: 320 }, { type: 'heron', count: 6, speed: 450 }] }
         ];
 
         // Функция для отображения модального окна
@@ -299,15 +284,23 @@
             };
         }
 
-        // Функция для настройки размера canvas
+        // Функция для настройки размера canvas и устранения "мыла"
         function setupCanvasSize() {
             const containerWidth = canvas.parentElement.clientWidth;
-            // Устанавливаем ширину и высоту canvas, сохраняя квадратные пропорции
             // Максимальная ширина 600px, но не более 90% от ширины контейнера
-            const size = Math.min(600, containerWidth * 0.9);
-            canvas.width = size;
-            canvas.height = size;
+            const desiredSize = Math.min(600, containerWidth * 0.9);
+
+            // Учитываем devicePixelRatio для устранения "мыла"
+            const dpi = window.devicePixelRatio || 1;
+            canvas.width = desiredSize * dpi;
+            canvas.height = desiredSize * dpi;
             CELL_SIZE = canvas.width / GRID_SIZE;
+
+            // Масштабируем контекст, чтобы рисовать в логических пикселях
+            ctx.scale(dpi, dpi);
+            canvas.style.width = `${desiredSize}px`; // Устанавливаем отображаемые размеры
+            canvas.style.height = `${desiredSize}px`;
+            
             draw(); // Перерисовываем поле после изменения размера
         }
 
@@ -401,7 +394,7 @@
             resetButton.classList.remove('hidden');
             mainMenuButton.classList.remove('hidden'); // Показываем кнопку "Главное меню"
             loadLevel(level);
-            gameLoop();
+            gameLoop(); // Предполагается, что gameLoop вызывает draw()
         }
 
         // Загрузка уровня
@@ -438,6 +431,10 @@
                     fastestPredatorSpeed = p.speed;
                 }
             });
+            // Убедимся, что fastestPredatorSpeed не Infinity, если хищников нет
+            if (fastestPredatorSpeed === Infinity) {
+                fastestPredatorSpeed = 1000; // Дефолтная скорость, если хищников нет
+            }
             predatorMovementInterval = setInterval(movePredators, fastestPredatorSpeed);
         }
 
@@ -462,7 +459,9 @@
         // Размещение жабки в случайном безопасном месте
         function placeFrogRandomly() {
             let placed = false;
-            while (!placed) {
+            let attempts = 0;
+            const maxPlacementAttempts = GRID_SIZE * GRID_SIZE * 2;
+            while (!placed && attempts < maxPlacementAttempts) {
                 const x = Math.floor(Math.random() * GRID_SIZE);
                 const y = Math.floor(Math.random() * GRID_SIZE);
                 // Проверяем, чтобы жабка не появилась в дыре или на хищнике
@@ -472,6 +471,13 @@
                     frog.y = y;
                     placed = true;
                 }
+                attempts++;
+            }
+            if (!placed) {
+                console.warn("Не удалось разместить жабку в безопасном месте после множества попыток.");
+                // В крайнем случае, если не удалось найти безопасное место, размещаем в 0,0
+                frog.x = 0;
+                frog.y = 0;
             }
         }
 
@@ -484,10 +490,11 @@
             while (flies.length < count && attempts < maxAttempts) {
                 const x = Math.floor(Math.random() * GRID_SIZE);
                 const y = Math.floor(Math.random() * GRID_SIZE);
-                // Мухи не должны быть в дырах, на жабке или на других мухах
+                // Мухи не должны быть в дырах, на жабке или на других мухах/хищниках
                 const isOccupied = holes.some(h => h.x === x && h.y === y) ||
-                                   (frog.x === x && frog.y === y) ||
-                                   flies.some(f => f.x === x && f.y === y);
+                                     (frog.x === x && frog.y === y) ||
+                                     flies.some(f => f.x === x && f.y === y) ||
+                                     predators.some(p => p.x === x && p.y === y); // Убедимся, что муха не на хищнике
                 if (!isOccupied) {
                     flies.push({ x, y });
                 }
@@ -509,9 +516,9 @@
                         const y = Math.floor(Math.random() * GRID_SIZE);
                         // Хищники не должны быть в дырах, на жабке, на мухах или на других хищниках
                         const isOccupied = holes.some(h => h.x === x && h.y === y) ||
-                                           (frog.x === x && frog.y === y) ||
-                                           flies.some(f => f.x === x && f.y === y) ||
-                                           predators.some(p => p.x === x && p.y === y);
+                                             (frog.x === x && frog.y === y) ||
+                                             flies.some(f => f.x === x && f.y === y) ||
+                                             predators.some(p => p.x === x && p.y === y);
                         if (!isOccupied) {
                             predators.push({ x, y, type: pConfig.type }); // Добавляем хищника с его типом
                             placed = true;
@@ -649,6 +656,7 @@
                     newX++;
                     break;
             }
+            // Передаем только смещение, функция moveFrog сама вычислит новые координаты
             moveFrog(newY - frog.y, newX - frog.x);
         }
 
@@ -733,8 +741,10 @@
                 if (frog.lives <= 0) {
                     endGame('Поражение!', 'Жабка упала в дыру и потеряла все жизни.');
                 } else {
-                    placeFrogRandomly(); // Перемещаем жабку в безопасное место
+                    // Перемещаем жабку в безопасное место
+                    placeFrogRandomly();
                 }
+                // Возвращаемся, чтобы не обрабатывать другие столкновения сразу после падения в дыру
                 return;
             }
 
@@ -744,11 +754,21 @@
                 flies.splice(flyIndex, 1); // Удаляем муху
                 score++;
                 updateGameInfo();
-                if (score >= levelsConfig[level - 1].fliesToEat) {
-                    // Уровень пройден
-                    level++;
-                    score = 0; // Сбрасываем счетчик мух для нового уровня
-                    showModal('Уровень пройден!', `Вы съели всех мух на уровне ${level - 1}!`, () => loadLevel(level));
+                // Если все мухи на текущем уровне собраны
+                if (score >= levelsConfig[level - 1].fliesToEat) { 
+                    score = 0; // Сбрасываем счет для нового уровня
+                    level++; // Увеличиваем уровень
+                    
+                    if (level <= levelsConfig.length) {
+                        // Если есть следующий уровень, переходим на него
+                        showModal('Уровень пройден!', `Отлично! Переход на уровень ${level}!`, () => {
+                            loadLevel(level); // Загружаем следующий уровень
+                        });
+                    } else {
+                        // Если прошли все уровни
+                        endGame('Победа!', 'Вы прошли все уровни! Вы настоящая жабка-охотница!');
+                    }
+                    return; // Важно выйти после обработки перехода на новый уровень
                 }
             }
 
@@ -757,10 +777,20 @@
                 frog.lives--;
                 updateGameInfo();
                 if (frog.lives <= 0) {
-                    endGame('Поражение!', 'Вас поймал хищник и вы потеряли все жизни.');
+                    endGame('Поражение!', 'Жабка съедена хищником и потеряла все жизни.');
                 } else {
-                    placeFrogRandomly(); // Перемещаем жабку в безопасное место
+                    // Перемещаем жабку в безопасное место
+                    placeFrogRandomly();
                 }
+                return;
+            }
+        }
+
+        // Основной игровой цикл (просто вызывает draw, остальная логика в moveFrog и movePredators)
+        function gameLoop() {
+            if (!gameOver && gameStarted) {
+                draw();
+                // requestAnimationFrame(gameLoop); // Убрано, так как движение уже управляется событиями/интервалами
             }
         }
 
@@ -768,30 +798,21 @@
         function endGame(title, message) {
             gameOver = true;
             gameStarted = false;
-            clearInterval(predatorMovementInterval);
-            showModal(title, message, initializeGame);
-        }
-
-        // Основной игровой цикл
-        function gameLoop() {
-            if (!gameOver && gameStarted) {
-                // draw(); // Рисуется в moveFrog и movePredators
-                requestAnimationFrame(gameLoop);
-            }
+            clearInterval(predatorMovementInterval); // Останавливаем движение хищников
+            showModal(title, message, initializeGame); // Предлагаем начать сначала
+            startButton.classList.add('hidden'); // Скрываем кнопку "Начать игру"
+            resetButton.classList.remove('hidden'); // Показываем кнопку "Перезапустить"
+            mainMenuButton.classList.remove('hidden'); // Показываем кнопку "Главное меню"
         }
 
         // Обработчики кнопок
         startButton.addEventListener('click', startGame);
-        resetButton.addEventListener('click', initializeGame);
-        mainMenuButton.addEventListener('click', () => {
-            window.location.href = 'index.html'; 
-        });
-        modalCloseButton.addEventListener('click', () => gameModal.classList.remove('visible'));
-        
-        // Инициализация при загрузке страницы и при изменении размера окна
-        window.onload = initializeGame;
-        window.addEventListener('resize', setupCanvasSize); // Пересчитываем размер canvas при изменении размера окна
+        resetButton.addEventListener('click', initializeGame); // Перезапускает игру с начальных настроек
+        mainMenuButton.addEventListener('click', initializeGame); // Возвращает к начальному состоянию
 
+        // Инициализация при загрузке страницы и при изменении размера окна
+        window.addEventListener('resize', setupCanvasSize);
+        initializeGame(); // Инициализация при первом запуске
     </script>
 </body>
 </html>
