@@ -1,0 +1,39 @@
+.info-name h1{
+    padding-top: 219px;
+    padding-left: 101px;
+   font-size: 64px;
+   font-weight: 300;
+   color: #252527;
+}
+
+.info-name {
+    position: relative; 
+}
+
+.info-name::before {
+  content: "";                  
+  position: absolute;
+  left: 20px;                     
+  top: 219px;                       
+  width: 345px;                   
+  height: 4px;                 
+  background: #D79350;              
+  pointer-events: none; 
+          
+}
+
+
+.info h2 {
+ padding-top: 74px;
+ font-size: 30px;
+ font-weight: 300;
+ color: #252527;
+}
+
+.contact h1 {
+    padding-top: 250px;
+    text-align: center;
+   font-size: 24px;
+   font-weight: 300;
+   color: #252527;
+}
