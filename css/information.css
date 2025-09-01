@@ -1,0 +1,173 @@
+
+.information01 p {
+    padding-top: 144px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+
+.information02 h1 {
+    padding-top: 76px;
+    font-size: 24px;
+    font-weight: 400;
+}
+ 
+.vertical {
+  position: absolute;    
+  top: 300px;              
+  left: 1180px;            
+  writing-mode: vertical-rl;
+  font-size: 64px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.information02 ul {
+    padding-top: 68px;
+    padding-left: 27px;
+}
+
+.information02 {
+    position: relative; 
+}
+
+.information02::before {
+  content: "";                  
+  position: absolute;
+  left: 1170px;                     
+  top: 80px;                       
+  width: 4px;                   
+  height: 323px;                 
+  background: #D79350;              
+  pointer-events: none; 
+          
+}
+
+
+.nav-text {
+    display: flex;
+}
+
+
+.information02 li {
+    margin-bottom: 40px;
+}
+
+.nav-text img {
+    width: 52px;
+    height: 52px;
+}
+
+.nav-text span {
+    font-size: 24px;
+    font-weight: 400;
+    padding-left: 28px;
+}
+
+
+.information03 {
+    padding-top: 202px;
+    position: relative; 
+}
+
+.information03::before {
+  content: "";                  
+  position: absolute;
+  left: 40px;                     
+  top: 202px;                       
+  width: 4px;                   
+  height: 323px;                 
+  background: #D79350;            
+  pointer-events: none; 
+          
+}
+
+.vertical02 {
+  position: absolute;    
+  top: 370px;              
+  left: -35px;            
+  writing-mode: vertical-rl;
+  font-size: 64px;
+  font-weight: 300;
+  transform: rotate(180deg);
+}
+
+
+.card01 {
+    position: absolute;
+    left: 110px;
+    width: 484px;
+    height: 451px;
+    background-color: #EBC9A7;
+     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.card01:hover {
+      transform: scale(1.1); 
+    }
+
+.card01 h1 {
+    padding-top: 10px;
+    padding-left: 15px;
+    font-size: 36px;
+    font-weight: 600px;
+}
+
+.card01 span {
+    font-size: 24px;
+}
+
+.card01 h2 {
+    position: relative;
+    left: 130px;
+    bottom: 80px;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.card02 {
+    position: absolute;
+    left: 680px;
+    width: 484px;
+    height: 451px;
+    background-color: #EBC9A7;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.card02:hover {
+      transform: scale(1.1); 
+    }
+
+
+.card02 h1 {
+    padding-top: 10px;
+    padding-left: 15px;
+    font-size: 36px;
+    font-weight: 600px;
+}
+
+.card02 span {
+    font-size: 24px;
+}
+
+.card02 h2 {
+    position: relative;
+    left: 130px;
+    bottom: 80px;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.information03 p {
+    padding-top: 480px;
+    padding-left: 980px;
+    font-size: 36px;
+    font-weight: 400;
+}
+
+.information03 a {
+    color: #252527;
+}
