@@ -1,0 +1,130 @@
+.slider01 {
+ padding-top: 165px;
+}
+
+.slider02 {
+ position: relative;
+ left: 1024px;
+ top: 64px;
+ font-size: 27px;
+ font-weight: 400;
+ color: #252527;
+}
+
+.slider-name {
+  position: relative; 
+}
+
+.slider-name::before {
+  content: "";                  
+  position: absolute;
+  left: 845px;                     
+  top: -7px;                       
+  width: 345px;                   
+  height: 4px;                 
+  background: #D79350;            
+  pointer-events: none; 
+          
+}
+
+.slider-name h1 {
+  position: relative;
+    padding-top: 91px;
+    left: 750px;
+    top: -95px;
+    font-size: 64px;
+    font-weight: 300;
+    width: 100px;
+}
+
+.slide {
+    
+    width: 1169px;
+    height: 570px;
+    background:#EBC9A7 ;
+    display: none;
+}
+
+
+.slide h1 {
+  position: relative;
+    top: -536px;
+    left: 629px;
+    font-size: 35px;
+    font-weight: 500;
+    width: 500px;
+}
+
+
+.slide h2 {
+  position: relative;
+    top: -464px;
+    left: 629px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #BE6002;
+    width: 500px;
+}
+
+
+.slide p {
+  position: relative;
+    top: -436px;
+    left: 629px;
+    font-size: 22px;
+    font-weight: 300;
+    width: 500px;
+    
+}
+
+.slide a {
+    font-size: 22px;
+    font-weight: 300;
+    color: #BE6002;
+}
+
+
+.Arrow {
+  padding-left: 10px;
+  padding-top: 2px;
+}
+
+.Arrow01 {
+  position: relative;
+    top: -208px;
+    left: 978px;
+}
+
+.Arrow02 {
+  position: relative;
+    top: -355px;
+    left: 978px;
+}
+
+.block {
+    display: block;
+    margin: 0 auto;
+}
+
+.pagination-circle {
+    position: relative;
+    left: 587px;
+    top: 30px;
+    width: 25px;
+    height: 25px;
+    border: 2px solid #D79350;
+    border-radius: 50%;
+}
+
+.active {
+    background-color: #D79350;
+}
+
+#bottom {
+    display: flex;
+    column-gap: 25px;
+}
+
+
+
+
