@@ -1,0 +1,288 @@
+.Noviny_teg {
+    font-family: "e-Ukraine Head";
+    font-size: 48px;
+    font-weight: 500;
+}
+
+.Noviny_url {
+    color: black;
+    font-family: "e-Ukraine Head";
+    font-size: 24px;
+    font-weight: 500;
+    padding-top: 15px;
+}
+
+.Noviny_up {
+    display: flex;
+    justify-content: space-between;
+    text-align: start;
+}
+
+
+.Noviny {
+    padding-top: 100px;
+}
+
+.news {
+  max-width: 1350px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 32px;
+}
+
+
+.news-card h3 {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #2b2b2b;
+  padding-bottom: 12px;
+}
+
+.news-card img {
+  width: 400px;
+  height: 300px;
+  object-fit: cover;
+  margin-bottom: 12px;
+}
+
+
+.news-card.big {
+  width: 500px;
+  grid-row: span 2;
+}
+
+.news-card.big img {
+  width: 500px;
+  height: 500px;
+}
+
+.news-card h3 {
+  font-family: "e-Ukraine";
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.35;
+  margin: 0 0 8px;
+}
+
+.news-card.big h3 {
+  font-family: "e-Ukraine";
+  font-size: 20px;
+  font-weight: 400;
+}
+
+
+.news-card .date {
+  font-family: "e-Ukraine";
+  font-size: 20px;
+  font-weight: 300;
+  color: #000;
+}
+
+
+.news-card:nth-last-child(-n+2) img {
+  display: none;
+}
+
+
+.news-card:nth-last-child(-n+2) h3 {
+  margin-top: 0;
+}
+
+
+.services {
+  background-color: #eef3f5;
+  padding: 80px 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.services__container {
+  max-width: 1350px;
+  margin: 0 auto;
+}
+
+.services__title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 60px;
+}
+
+.services__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px 80px;
+}
+
+.service {
+  position: relative;
+  padding-bottom: 50px;
+}
+
+.service::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 41px;
+  width: 85%;
+  height: 1px;
+  background-color: #9aa5ab;
+}
+
+.service__title {
+  font-family: "e-Ukraine";
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: #000;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.service__text {
+  font-family: "e-Ukraine";
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #4a4a4a;
+  width: 515px;
+}
+
+
+.governance {
+  background-color: #ffffff;
+  padding: 80px 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.governance__container {
+  max-width: 1350px;
+  margin: 0 auto;
+}
+
+.governance__title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 60px;
+}
+
+.governance__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px 80px;
+}
+
+.governance__item {
+  position: relative;
+  padding-bottom: 50px;
+}
+
+.governance__item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 41px;
+  width: 85%;
+  height: 1px;
+  background-color: #9aa5ab;
+}
+
+.governance__item-title {
+  font-family: "e-Ukraine";
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: #000;
+}
+
+.governance__item-text {
+  font-family: "e-Ukraine";
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #4a4a4a;
+  max-width: 515px;
+}
+
+.contact-block {
+  background-color: #eef3f5;
+  padding: 80px 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  border-top: 4px solid #1e88e5;
+}
+
+.contact-block__container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contact-block__title {
+  font-family: "e-Ukraine";
+  font-size: 48px;
+  font-weight: 500;
+  margin-bottom: 60px;
+  color: #000;
+}
+
+.contact-block__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.contact-block__info {
+  max-width: 615px;
+}
+
+.contact-block__subtitle {
+  font-family: "e-Ukraine";
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  color: #000;
+}
+
+.contact-block__schedule {
+  font-family: "e-Ukraine";
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #4a4a4a;
+  padding-bottom: 20px;
+}
+
+.contact-block__schedule02 {
+  font-family: "e-Ukraine";
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #4a4a4a;
+}
+
+.contact-block__phone {
+  font-family: "e-Ukraine";
+  font-size: 64px;
+  font-weight: 300;
+  color: #000;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.contact-block__phone:hover {
+  text-decoration: underline;
+}
+
+
+
+
