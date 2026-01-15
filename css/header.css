@@ -268,4 +268,8 @@ display: flex;
   .submenu li a {
     font-weight: 500;
   }
+
+  .logo_text {
+    font-size: 32px;
+  }
 }
