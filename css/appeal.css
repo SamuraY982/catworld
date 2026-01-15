@@ -1,0 +1,172 @@
+.appeal {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  padding: 60px 0px 0px;
+}
+
+.appeal__container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.appeal__breadcrumbs {
+  font-size: 12px;
+  color: #6b6b6b;
+  margin-bottom: 30px;
+}
+
+.appeal__breadcrumbs a {
+  color: #6b6b6b;
+  text-decoration: none;
+}
+
+.appeal__title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+.appeal__form {
+  background: #eef3f5;
+  padding: 40px;
+}
+
+.appeal__form label {
+    font-family: "e-Ukraine";
+  display: block;
+  font-size: 22px;
+  font-weight: 300;
+  margin-bottom: 16px;
+}
+
+.appeal__form input,
+.appeal__form textarea {
+    font-family: "e-Ukraine";
+  width: 100%;
+  border: 1px solid #9aa5ab;
+  padding: 8px;
+  margin-top: 6px;
+  font-size: 22px;
+  font-weight: 300;
+  background-color: #fff;
+}
+
+
+.radio_input {
+    width: 30px !important;
+    height: 20px;
+}
+
+.appeal__radios {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 40px;
+  margin: 20px 0;
+  font-size: 13px;
+}
+
+
+
+.appeal__form button {
+  margin-top: 20px;
+  padding: 8px 18px;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  width: 240px;
+  height: 60px;
+}
+
+.appeal__form button:hover {
+  opacity: 0.85;
+}
+
+
+.appeal__notes {
+    font-family: "e-Ukraine";
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 40px;
+  font-size: 24px;
+  width: 300;
+  line-height: 1.5;
+  color: #333;
+}
+
+.appeal__notes p {
+ padding-bottom: 30px;
+}
+
+
+@media (max-width: 1024px) {
+  .appeal {
+    padding: 50px 16px 80px;
+  }
+
+  .appeal__title {
+    font-size: 28px;
+  }
+
+  .appeal__form {
+    padding: 32px;
+  }
+
+  .appeal__form label,
+  .appeal__form input,
+  .appeal__form textarea {
+    font-size: 20px;
+  }
+
+  .appeal__notes {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .appeal {
+    padding: 40px 12px 70px;
+  }
+
+  .appeal__title {
+    font-size: 24px;
+    margin-bottom: 28px;
+  }
+
+  .appeal__form {
+    padding: 24px;
+  }
+
+  .appeal__form label,
+  .appeal__form input,
+  .appeal__form textarea {
+    font-size: 18px;
+  }
+
+  .appeal__radios {
+    grid-template-columns: 1fr;
+  }
+
+  .appeal__form button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .appeal__title {
+    font-size: 22px;
+  }
+
+  .appeal__form {
+    padding: 18px;
+  }
+
+  .appeal__form label,
+  .appeal__form input,
+  .appeal__form textarea {
+    font-size: 16px;
+  }
+}
