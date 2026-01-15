@@ -1,0 +1,271 @@
+
+
+.up {
+    padding: 68px 22px 0 22px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.left_logo {
+    width: 97px;
+    height: 37px;
+}
+
+.up_left {
+display: flex;
+}
+
+.up_right {
+    gap: 25px;
+    display: flex;
+}
+
+.right_logo {
+    width: 35px;
+    height: 35px;
+}
+
+.up_text {
+    font-family: "e-Ukraine Head";
+    font-weight: 500;
+    font-size: 10px;
+    padding: 5px 0 0 14px;
+}
+
+.center {
+    text-align: center;
+}
+
+.logo_img {
+    width: 177px;
+    height: 100px;
+}
+
+.logo_text {
+    padding-top: 20px;
+    font-family: "e-Ukraine Head";
+    font-size: 40px;
+    font-weight: 500;
+}
+
+
+/* NAV*/
+
+.nav {
+    padding-top: 57px;
+  border-bottom: 1px solid #000;
+}
+
+.menu {
+  display: flex;
+  gap: 40px;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu > li {
+  position: relative;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #000;
+  font-family: "e-Ukraine Head";
+  font-size: 16px;
+  font-weight: 500;
+  padding: 15px 0;
+  display: inline-block;
+}
+
+/* ▼ стрелка */
+.menu span {
+  font-size: 12px;
+}
+
+/* Выпадающее меню */
+.submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 260px;
+  background: #fff;
+  border: 1px solid #000;
+  display: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 10;
+}
+
+.submenu li a {
+  font-family: "e-Ukraine Head";
+  font-size: 16px;
+  font-weight: 400;
+  padding: 10px 15px;
+  display: block;
+  border-bottom: 1px solid #000;
+}
+
+.submenu li:last-child a {
+  border-bottom: none;
+}
+
+/* Hover */
+.dropdown:hover .submenu {
+  display: block;
+}
+
+/* Hover эффект */
+.submenu a:hover {
+  background: #000000;
+}
+
+
+.submenu li a:hover {
+    color: #fff;
+}
+
+
+/* ===== BURGER ICON ===== */
+.burger {
+  display: none;
+  width: 26px;
+  height: 18px;
+  background: none;
+  border: none;
+  padding: 0;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.burger span {
+  height: 2px;
+  background: #000;
+  width: 100%;
+}
+
+/* ===== OVERLAY ===== */
+.burger-overlay {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 9999;
+  transform: translateX(100%);
+  transition: .3s ease;
+  padding: 24px 20px;
+  overflow-y: auto;
+}
+
+.burger-overlay.active {
+  transform: translateX(0);
+}
+
+/* close */
+.burger-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 28px;
+  background: none;
+  border: none;
+}
+
+/* menu */
+.burger-nav {
+  margin-top: 40px;
+}
+
+.burger-nav .menu {
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+.burger-nav .menu > li > a {
+  padding: 14px 0;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* arrows */
+.burger-nav .menu span {
+  font-size: 14px;
+}
+
+/* sub */
+.burger-nav .submenu {
+  display: none;
+  position: static;
+  border: none;
+}
+
+
+
+/* bottom */
+.burger-bottom {
+  margin-top: 30px;
+  border-top: 1px solid #000;
+  padding-top: 20px;
+}
+
+.burger-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #000;
+  padding-bottom: 10px;
+}
+
+.burger-search input {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.burger-lang {
+  margin-top: 20px;
+  font-size: 22px;
+}
+
+.burger-gov {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100px;
+}
+
+/* mobile only */
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+  .burger {
+    display: flex;
+  }
+
+  .menu {
+    gap: 0;
+  }
+
+  .right_logo {
+    display: none;
+  }
+
+  .up_left {
+    display: none
+    ;
+  }
+
+  .up {
+    justify-content: right;
+  }
+
+  .submenu li a {
+    font-weight: 500;
+  }
+}
